@@ -2,15 +2,15 @@
 
 pkgname=pilight-git
 _pkgname=pilight
-pkgver=v3.0.r163.geccaab8
+pkgver=v8.1.5.v8.1.5
 _pkgver_major=$(sed -n 's/^v\([0-9]\+\)\.*.*$/\1/p' <<< $pkgver)
-pkgrel=3
+pkgrel=1
 pkgdesc='Modular domotica with the Raspberry Pi'
 arch=('x86_64' 'armv6h')
 url="http://pilight.org/"
 license=('GPL3')
 makedepends=('git' 'gcc' 'glibc')
-source=('git+https://github.com/pilight/pilight.git#branch=development'
+source=('git+https://github.com/pilight/pilight.git#tag=v8.1.5'
         'https://raw.github.com/pschmitt/aur-pilight-git/master/pilight.service')
 sha256sums=('SKIP'
             '25ffe32693a9a68be4234f63248f6e72e1704cbb74646f77672d02ba19e7f179')
@@ -29,11 +29,6 @@ prepare() {
     cd "${srcdir}/${_pkgname}"
     # Fix zlib path
     sed -i 's|\(/usr/lib/\).*/\(libz.so\)|\1\2|g' CMakeLists.txt
-    sed -i 's|\("webserver-root"\): "/usr/local/share/pilight/"|\1: "/usr/share/webapps/pilight"|' settings.json-default
-    sed -i 's|\("pid-file"\): "/var\(/run/pilight.pid\)"|\1: "\2"|' settings.json-default
-    # Dirty fix for hardcoded interface name (try to guess default network interface name)
-    local default_net_interface=$(route | grep default | tail -1 | awk '{ print $NF }')
-    sed -i "s/eth0/${default_net_interface}/g" libs/pilight/ssdp.c
 }
 
 build() {
@@ -50,13 +45,14 @@ package() {
 
     # Fix paths
     cd "${pkgdir}"
-    mv usr/sbin usr/bin
-    mv usr/lib/pilight/libpilight.so.${_pkgver_major} usr/lib/libpilight.so.${_pkgver_major}
+    mv usr/sbin/* usr/bin/
+    rm -r usr/sbin
+    #mv usr/lib/pilight/libpilight.so.${_pkgver_major} usr/lib/libpilight.so.${_pkgver_major}
     ln -s usr/lib/libpilight.so.${_pkgver_major} usr/lib/libpilight.so
-    mkdir -p usr/share/webapps/${_pkgname}
-    mv usr/local/share/${_pkgname}/default usr/share/webapps/${_pkgname}
+    mkdir usr/local/lib
+    mv usr/lib/pilight usr/local/lib/pilight
 
     # Cleanup
-    rm -rf usr/local usr/lib/pilight etc/init.d
+    rm -rf etc/init.d usr/local/lib/pilight/storage/CMakeFiles
 }
 

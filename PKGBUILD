@@ -6,10 +6,11 @@ pkgver=v8.1.5.v8.1.5
 _pkgver_major=$(sed -n 's/^v\([0-9]\+\)\.*.*$/\1/p' <<< $pkgver)
 pkgrel=1
 pkgdesc='Modular domotica with the Raspberry Pi'
-arch=('x86_64' 'armv6h')
+arch=('x86_64' 'armv6h' 'armv7h')
 url="http://pilight.org/"
 license=('GPL3')
-makedepends=('git' 'gcc' 'glibc')
+makedepends=('git' 'gcc' 'glibc' 'cmake')
+depends=('mbedtls' 'luajit')
 source=('git+https://github.com/pilight/pilight.git#tag=v8.1.5'
         'https://raw.github.com/pschmitt/aur-pilight-git/master/pilight.service')
 sha256sums=('SKIP'

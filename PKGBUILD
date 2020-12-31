@@ -9,10 +9,10 @@ pkgdesc='Modular domotica with the Raspberry Pi'
 arch=('x86_64' 'armv6h' 'armv7h')
 url="http://pilight.org/"
 license=('GPL3')
-makedepends=('git' 'gcc' 'glibc' 'cmake')
+makedepends=('git' 'gcc' 'glibc' 'cmake' 'libunwind' 'libpcap')
 depends=('mbedtls' 'luajit')
 source=('git+https://github.com/pilight/pilight.git#tag=v8.1.5'
-        'https://raw.github.com/pschmitt/aur-pilight-git/master/pilight.service')
+        'pilight.service')
 sha256sums=('SKIP'
             '25ffe32693a9a68be4234f63248f6e72e1704cbb74646f77672d02ba19e7f179')
 conflicts=('pilight')
@@ -34,6 +34,8 @@ prepare() {
 
 build() {
     cd "${srcdir}/${_pkgname}"
+    # Adapt to GCC 10 defaulting to -fno-common
+    export CFLAGS=-fcommon
     cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr .
     make
 }

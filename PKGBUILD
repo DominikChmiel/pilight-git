@@ -16,6 +16,7 @@ source=('git+https://github.com/pilight/pilight.git#tag=v8.1.5'
 sha256sums=('SKIP'
             '25ffe32693a9a68be4234f63248f6e72e1704cbb74646f77672d02ba19e7f179')
 conflicts=('pilight')
+backup=(etc/pilight/config.json)
 
 pkgver() {
     cd "${srcdir}/${_pkgname}"

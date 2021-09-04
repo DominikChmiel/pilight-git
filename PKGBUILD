@@ -9,7 +9,7 @@ pkgdesc='Modular domotica with the Raspberry Pi'
 arch=('x86_64' 'armv6h' 'armv7h')
 url="http://pilight.org/"
 license=('GPL3')
-makedepends=('git' 'gcc' 'glibc' 'cmake' 'libunwind' 'libpcap')
+makedepends=('git' 'gcc' 'glibc' 'cmake' 'libunwind' 'libpcap' 'wiringx-git')
 depends=('mbedtls' 'luajit')
 source=('git+https://github.com/pilight/pilight.git#tag=v8.1.5'
         'pilight.service')

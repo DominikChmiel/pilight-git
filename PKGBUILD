@@ -5,13 +5,13 @@ _pkgname=pilight
 pkgver=v8.1.5.v8.1.5
 _pkgver_major=$(sed -n 's/^v\([0-9]\+\)\.*.*$/\1/p' <<< $pkgver)
 pkgrel=1
-pkgdesc='Modular domotica with the Raspberry Pi'
+pkgdesc='Home automation with the Raspberry Pi'
 arch=('x86_64' 'armv6h' 'armv7h')
 url="http://pilight.org/"
 license=('GPL3')
 makedepends=('git' 'gcc' 'glibc' 'cmake' 'libunwind' 'libpcap' 'wiringx-git')
 depends=('mbedtls' 'luajit')
-source=('git+https://github.com/pilight/pilight.git#tag=v8.1.5'
+source=('git+https://github.com/pilight/pilight.git#branch=staging'
         'pilight.service')
 sha256sums=('SKIP'
             '25ffe32693a9a68be4234f63248f6e72e1704cbb74646f77672d02ba19e7f179')
@@ -46,6 +46,9 @@ package() {
 
     make DESTDIR="$pkgdir/" install
     install -Dm644 "${srcdir}/pilight.service" "${pkgdir}/usr/lib/systemd/system/pilight.service"
+
+    # Remove pilight-provided service
+    rm "${pkgdir}/etc/systemd/system/pilight.service"
 
     # Fix paths
     cd "${pkgdir}"

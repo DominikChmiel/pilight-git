@@ -10,7 +10,7 @@ arch=('x86_64' 'armv6h' 'armv7h' 'aarch64')
 url="http://pilight.org/"
 license=('GPL3')
 makedepends=('git' 'gcc' 'glibc' 'cmake' 'libunwind' 'libpcap' 'wiringx-git')
-depends=('mbedtls' 'luajit')
+depends=('mbedtls' 'luajit' 'lua51')
 source=('git+https://github.com/pilight/pilight.git#branch=staging'
         'pilight.service')
 sha256sums=('SKIP'
